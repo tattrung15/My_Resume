@@ -1,10 +1,15 @@
 require("dotenv").config();
 const config = require("./config/index");
+
 const mongoose = require("mongoose");
 const express = require("express");
+const emailValidator = require("deep-email-validator");
+
 const app = express();
 
 const Comment = require("./model/Comment");
+
+const regexMessage = /(com|org|net|int|vn|edu|gov|mil)/gm;
 
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -41,9 +46,19 @@ app.get("/", async (req, res) => {
 app.post("/comments", async (req, res) => {
   const { name, email, job, message } = req.body;
 
+  const validEmailExists = await emailValidator.validate(email);
+  console.log(validEmailExists);
+  if (!validEmailExists.valid) {
+    return res.send("NOT_EXISTS_SMTP");
+  }
+
   const comment = await Comment.findOne({ email: email });
-  if(comment){
+  if (comment) {
     return res.send("EMAIL_EXISTED");
+  }
+
+  if (regexMessage.test(message)) {
+    return res.send("MSG_INVALID");
   }
 
   const newComment = {

@@ -3,7 +3,6 @@ const config = require("./config/index");
 
 const mongoose = require("mongoose");
 const express = require("express");
-const emailValidator = require("deep-email-validator");
 
 const app = express();
 
@@ -46,11 +45,11 @@ app.get("/", async (req, res) => {
 app.post("/comments", async (req, res) => {
   const { name, email, job, message } = req.body;
 
-  const validEmailExists = await emailValidator.validate(email);
-  console.log(validEmailExists);
-  if (!validEmailExists.valid) {
-    return res.send("NOT_EXISTS_SMTP");
-  }
+  // const validEmailExists = await emailValidator.validate(email);
+  // console.log(validEmailExists);
+  // if (!validEmailExists.valid) {
+  //   return res.send("NOT_EXISTS_SMTP");
+  // }
 
   const comment = await Comment.findOne({ email: email });
   if (comment) {

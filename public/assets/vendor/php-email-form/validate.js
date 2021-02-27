@@ -155,7 +155,6 @@
       type: "POST",
       url: action,
       data: data,
-      timeout: 40000,
     })
       .done(function (msg) {
         console.log(msg);
@@ -171,12 +170,12 @@
           this_form.find(".error-message").slideDown().html(message);
           return;
         }
-        if (msg.trim() === "NOT_EXISTS_SMTP") {
-          this_form.find(".loading").slideUp();
-          const message = "Email doesn't exist on the SMTP server <br>";
-          this_form.find(".error-message").slideDown().html(message);
-          return;
-        }
+        // if (msg.trim() === "NOT_EXISTS_SMTP") {
+        //   this_form.find(".loading").slideUp();
+        //   const message = "Email doesn't exist on the SMTP server <br>";
+        //   this_form.find(".error-message").slideDown().html(message);
+        //   return;
+        // }
         if (msg.trim() === "MSG_INVALID") {
           this_form.find(".loading").slideUp();
           const message = "Message invalid <br>";
